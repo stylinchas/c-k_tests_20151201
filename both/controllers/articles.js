@@ -6,11 +6,18 @@ if (Meteor.isClient) {
   Meteor.subscribe("articles");
   
   Template.articlesTmpl.helpers({
-  
+    
     articles: function() {
-      var theArticles = Articles.find({}).fetch();
-      console.log(theArticles)
+      // get user ID to compare with article creatorID 
+      var thisUserID = Meteor.userId();
+      
+      //  only display articles by this user
+      var theArticles = Articles.find({creatorID:thisUserID}).fetch();
+      //console.log(theArticles)
       return theArticles;
+    },
+    userID: function() {
+      return Meteor.userId();
     }
   });
   
@@ -19,22 +26,22 @@ if (Meteor.isClient) {
   
   ///CRUD article links
   
-    // New Article buton
+    // New Article button
      'click .add_article button': function() {
         Router.go('/articleCreate');
     },
-    // Display article in full
+    // display article link
     'click li span.title': function (event) {
       event.preventDefault(event);
       Router.go('/articleDisplay/'+this._id);
     },
-    // Update article in form
+    // Update article link
     'click a.update_article': function (event) {
       event.preventDefault(event);
       event.stopPropagation(event);
       Router.go('/articleUpdate/'+this._id);
     },
-    // Delete article - needs warnings
+    // Delete article link  - needs warnings
     'click a.delete_article': function (event) {
 		  event.preventDefault();
       event.stopPropagation();

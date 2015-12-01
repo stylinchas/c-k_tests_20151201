@@ -1,19 +1,36 @@
-Articles = new Mongo.Collection('articles');
+Streams = new Mongo.Collection('streams');
 // articles elements (title, text, etc.) and author-supplied metadata
 
-Articles.attachSchema(new SimpleSchema({
-  title: {
+Streams.attachSchema(new SimpleSchema({
+  
+
+  category: { // select drop-down
     type: String,
-    label: "Title",
-    max: 200
+    label:"Category",
+    // options for select from helper in controllers/streams.js
+     allowedValues: 
+       ["Real Estate","Healthcare","Transportation"],
+        /*{label: "Real Estate", value: real_estate},
+            {label: "Healthcare", value: healthcare},
+            {label: "Transportation", value: transportation}*/
+      
+       autoform: {
+        afFieldInput: {
+          firstOption: "(Select a Category)"
+        }
+      }
   },
-  short_title: {
+  
+  stream_title: {
     type: String,
-    label: "Short Title (for Twitter)"
+    label: "Stream Title",
+    max: 80
   },
-  content: {
+  stream_description: {
     type: String,
-    label: "Article Body",
+    label: "Stream Description",
+    max: 250, // ~40 words
+    
     autoform: {
       afFieldInput: {
         type: 'summernote',
@@ -22,7 +39,6 @@ Articles.attachSchema(new SimpleSchema({
           toolbar: [
             ['font', ['bold', 'italic', 'clear']], //['font', ['bold', 'italic', 'underline', 'clear']],
             ['para', ['ul', 'ol']], //['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['link', 'picture', 'video']], //['insert', ['link', 'picture', 'hr']],
           ],
         }
       }
@@ -40,13 +56,3 @@ Articles.attachSchema(new SimpleSchema({
     autoValue: function () { return Meteor.userId() },
   }
 }));
-
-/*
-Articles.helpers({
-	
-});
-
-Articles.before.insert(function (userId, doc) {
-  doc.createdAt = moment().toDate();
-});
-*/

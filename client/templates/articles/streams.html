@@ -1,0 +1,77 @@
+<template name="streamsTmpl">
+
+  <div class="template-listing">
+  
+    <div class="page-header">
+      <h1>Streams</h1>
+    </div>
+    
+   <!-- <div>
+      {{> quickForm collection="Streams" id="insertStreamForm" type="insert"}}
+	  </div>
+    
+    
+   <div>
+      {{> quickForm collection="Streams" doc=this id="updateStreamForm" type="update"}}
+	  </div>
+    -->
+    <div class="streams_listing">
+      <ul class="list-group">
+        
+        {{#each streams}}
+        
+          <li class="list-group-item"><span class="title">{{ title }}</span> - {{userID}} && {{creatorID}}
+            <span><a class="update_stream" href="#">edit</a></span>
+            <span><a class="delete_stream" href="#">delete</a></span>
+          </li>
+          
+        {{/each}}
+        
+      </ul>
+    </div>    
+    
+    <div class="add_stream">
+   		<button class="btn btn-md btn-default">New Stream</button>
+    </div>
+    
+    
+    
+  </div> <!-- template_listing -->
+</template>
+
+
+<template name="streamCreateTmpl">
+  <div>
+    {{#autoForm collection="Streams" doc=this id="updateStreamForm" type="insert"}}
+       {{> afQuickField name='category' options='allowed'}}
+       {{> afQuickField name='stream_title'}}
+       {{> afQuickField name='stream_description'}}
+       
+    <button type="submit" class="btn btn-primary">Create Stream</button>
+    {{/autoForm}}
+	 </div>
+   <a href="#" class="streams_link">Cancel</a>
+</template>
+
+<template name="streamDisplayTmpl">
+  <div>
+   <h1>{{title}}</h1>
+   <h2>{{short_title}}</h2>
+   <div class="from_editor">
+     {{{content}}} <!-- use the triple-stash escape syntax of spacebar templates so it renders as HTML, not text -->
+   </div>
+	</div>
+  <a href="#" class="streams_link">Cancel</a>
+</template>
+    
+    
+<template name="streamUpdateTmpl">
+  <div>
+    {{#autoForm collection="Streams" doc=this id="updateStreamForm" type="update"}}
+       {{> afQuickField name='category'}}
+       {{> afQuickField name='stream_title'}}
+       {{> afQuickField name='stream_description'}}
+    {{/autoForm}}
+	</div>
+  <a href="#" class="streams_link">Cancel</a>
+</template>
