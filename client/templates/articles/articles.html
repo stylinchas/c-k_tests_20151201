@@ -1,0 +1,67 @@
+<template name="articlesTmpl">
+
+  <div class="template-listing">
+  
+    <div class="page-header">
+      <h1>Articles</h1>
+    </div>
+    
+   <!-- <div>
+      {{> quickForm collection="Articles" id="insertArticleForm" type="insert"}}
+	  </div>
+    
+    
+   <div>
+      {{> quickForm collection="Articles" doc=this id="updateArticleForm" type="update"}}
+	  </div>
+    -->
+    <div class="articles_listing">
+      <ul class="list-group">
+        
+        {{#each articles}}
+        
+          <li class="list-group-item"><span class="title">{{ title }}</span> - 
+            <span><a class="update_article" href="#">edit</a></span>
+            <span><a class="delete_article" href="#">delete</a></span>
+          </li>
+          
+        {{/each}}
+        
+      </ul>
+    </div>    
+    
+    <div class="add_article">
+   		<button class="btn btn-md btn-default">New Article</button>
+    </div>
+    
+    
+    
+  </div> <!-- template_listing -->
+</template>
+
+
+<template name="articleCreateTmpl">
+  <div>
+    {{> quickForm collection="Articles" id="insertArticleForm" type="insert"}}
+	 </div>
+   <a href="#" class="articles_link">Cancel</a>
+</template>
+
+<template name="articleDisplayTmpl">
+  <div>
+   <h1>{{title}}</h1>
+   <h2>{{short_title}}</h2>
+   <div class="from_editor">
+     {{{content}}} <!-- use the triple-stash escape syntax of spacebar templates so it renders as HTML, not text -->
+   </div>
+	</div>
+  <a href="#" class="articles_link">Cancel</a>
+</template>
+    
+    
+<template name="articleUpdateTmpl">
+  <div>
+    {{> quickForm collection="Articles" doc=this id="updateArticleForm" type="update"}}
+	</div>
+  <a href="#" class="articles_link">Cancel</a>
+</template>
