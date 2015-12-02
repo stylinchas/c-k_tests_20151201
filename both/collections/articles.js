@@ -1,6 +1,7 @@
 Articles = new Mongo.Collection('articles');
 // articles elements (title, text, etc.) and author-supplied metadata
 
+
 Articles.attachSchema(new SimpleSchema({
   title: {
     type: String,
@@ -27,6 +28,12 @@ Articles.attachSchema(new SimpleSchema({
         }
       }
     }
+  },
+  stream_names: { // CWS -pick up here - no controllers/helpers
+    // a select so user can assign an article to a stream
+  // see helper in articles.js
+    type:"String",
+    label: "Stream"
   },
   creatorID: { 
   // adds the creator's user ID to doc but does not display form field

@@ -3,17 +3,21 @@ if (Meteor.isClient) {
   
   // get the data for the Articles templates
   
-  Meteor.subscribe("articles");
+  Meteor.subscribe("articles"); 
+  Meteor.subscribe("categories");
+  
   
   Template.articlesTmpl.helpers({
     
+    // get user's articles
     articles: function() {
-      // get user ID to compare with article creatorID 
+      
+      // get user ID to compare with article creator ID 
       var thisUserID = Meteor.userId();
       
       //  only display articles by this user
+      //  i.e. where article creator ID matches the user ID
       var theArticles = Articles.find({creatorID:thisUserID}).fetch();
-      //console.log(theArticles)
       return theArticles;
     },
     userID: function() {
@@ -60,17 +64,32 @@ if (Meteor.isClient) {
           Articles.remove(theId);
         }
         else {
-          
+          // nothing - prompt closes
         }
       });
     }
   });
   
+   Template.articleCreateTmpl.helpers({ 
+   
+   //dropdown to associate article with a stream
+    streams_select:function() {
+       console.log(this._id + " OK then")
+       //have this above also - ref
+       
+       return Streams.find().map(function (strm) {
+         return {label: strm.stream_title, value:strm.stream_title};
+        });
+       
+       
+      },
+    });
+    
   Template.articleCreateTmpl.events({ 
     //submit new article
    'submit': function () {
       Router.go('/articles');
-      //console.log(this._id);
+      //console.log(this._id)
     },
     // link back to article listing
     'click .articles_link': function(event) {
@@ -80,6 +99,20 @@ if (Meteor.isClient) {
     }
   });
   
+  Template.articleUpdateTmpl.helpers({ 
+   
+   //dropdown to associate article with a stream
+    streams_select:function() {
+       return Streams.find().map(function (strm) {
+         return {label: strm.stream_title, value:strm.stream_title};
+        });
+       
+       
+      },
+    });
+     
+   
+ 
   Template.articleUpdateTmpl.events({
     //submit updated article 
     'submit': function () {

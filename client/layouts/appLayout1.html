@@ -1,4 +1,6 @@
 <template name="ApplicationLayout">
+  
+  
   <header>
     <h1>{{title}}</h1>
   </header>
@@ -8,11 +10,26 @@
     {{> yield "aside"}}
   </aside>
 
-  <article>
-    {{> yield}}
-  </article>
+  <div class="row">
+    <div class="col-md-3">
+      &nbsp;
+    </div>
+    
+    <div class="col-md-6">
+      <article>
+        {{> yield}}
+      </article>
+    </div>
+    
+    <div class="col-md-3">
+      &nbsp;
+    </div>
+    
+   </div> <!-- /row -->
 
   <footer>
     {{> yield "footer"}}
-  </footer>
+  </footer> 
+  
+ 
 </template>

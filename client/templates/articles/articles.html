@@ -42,7 +42,14 @@
 
 <template name="articleCreateTmpl">
   <div>
-    {{> quickForm collection="Articles" id="insertArticleForm" type="insert"}}
+    {{#autoForm collection="Articles" doc=this id="insertArticleForm" type="insert"}}
+    {{/autoForm}}      {{> afQuickField name='stream_names' options=streams_select}}
+      
+      {{> afQuickField name='title'}}
+      {{> afQuickField name='short_title'}}
+      {{> afQuickField name='content'}}
+      <button type="submit" class="btn btn-primary">Update Article</button>
+
 	 </div>
    <a href="#" class="articles_link">Cancel</a>
 </template>
@@ -61,7 +68,14 @@
     
 <template name="articleUpdateTmpl">
   <div>
-    {{> quickForm collection="Articles" doc=this id="updateArticleForm" type="update"}}
+    {{#autoForm collection="Articles" doc=this id="insertArticleForm" type="update"}}
+       {{> afQuickField name='stream_names' options=streams_select}}
+       
+       {{> afQuickField name='title'}}
+       {{> afQuickField name='short_title'}}
+       {{> afQuickField name='content'}}
+    <button type="submit" class="btn btn-primary">Update Article</button>
+    {{/autoForm}}
 	</div>
   <a href="#" class="articles_link">Cancel</a>
 </template>

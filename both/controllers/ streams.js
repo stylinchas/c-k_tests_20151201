@@ -4,17 +4,20 @@ if (Meteor.isClient) {
   // get the data for the Streams templates
   Meteor.subscribe("streams");
   
+  
   Template.streamsTmpl.helpers({
     //  only display streams by this user
     streams: function() {
+      
       // get user ID to compare with stream creatorID 
       var thisUserID = Meteor.userId();
       
-      //  select streams by this user
-      var theStreams = Streams.find({creatorID:thisUserID}).fetch();
+      //  select streams created by this user
+      var thisUsersStreams = Streams.find({creatorID:thisUserID}).fetch();
       //console.log(theStreams)
-      return theStreams; 
+      return thisUsersStreams; 
     },
+    
     userID: function() {
       return Meteor.userId();
     }
@@ -65,30 +68,47 @@ if (Meteor.isClient) {
     }
   });
   
+  //have this below also - refactor
+  Template.streamCreateTmpl.helpers({ 
+  categories_select:function() {
+    
+      return Categories.find().map(function (cat) {
+         return {label: cat.name, value: cat._id};
+        });
+  },
+  });
+  
   Template.streamCreateTmpl.events({ 
     //submit new stream
    'submit': function () {
       Router.go('/streams');
-      //console.log(this._id);
+      console.log(this._id);
     },
     // link back to stream listing
     'click .streams_link': function(event) {
       event.preventDefault();
-        console.log(this._id);
-        Router.go('/streams');
+      Router.go('/streams');
     }
   });
   
+   //have this above also - refactor
+   Template.streamUpdateTmpl.helpers({ 
+   categories_select:function() {
+      return Categories.find().map(function (cat) {
+       return {label: cat.name, value: cat._id};
+      });
+    }
+   });
+   
   Template.streamUpdateTmpl.events({
     //submit updated stream 
     'submit': function () {
+       alert('ok'); 
       Router.go('/streams');
-      //console.log(this._id);
     },
     'click .streams_link': function(event) {
       // link back to stream listing
         event.preventDefault();
-        console.log(this._id);
         Router.go('/streams');
     }
   });

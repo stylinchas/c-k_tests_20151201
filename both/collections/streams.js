@@ -4,24 +4,29 @@ Streams = new Mongo.Collection('streams');
 Streams.attachSchema(new SimpleSchema({
   
 
-  category: { // select drop-down
+  category: { // select drop-down - options in helper
     type: String,
-    label:"Category",
+    label:"Category"
+    
+    /*
+    ,
     // options for select from helper in controllers/streams.js
      allowedValues: 
-       ["Real Estate","Healthcare","Transportation"],
+       ["RealEstate","Healthcare","Transportation"],
         /*{label: "Real Estate", value: real_estate},
             {label: "Healthcare", value: healthcare},
             {label: "Transportation", value: transportation}*/
       
+      /*
        autoform: {
         afFieldInput: {
           firstOption: "(Select a Category)"
         }
       }
+      */
   },
+  stream_title: { 
   
-  stream_title: {
     type: String,
     label: "Stream Title",
     max: 80
