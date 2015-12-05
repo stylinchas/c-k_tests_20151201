@@ -10,7 +10,8 @@ Articles.attachSchema(new SimpleSchema({
   },
   short_title: {
     type: String,
-    label: "Short Title (for Twitter)"
+    label: "Short Title (for Twitter)",
+    max: 40
   },
   content: {
     type: String,

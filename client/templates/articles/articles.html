@@ -1,26 +1,19 @@
-<template name="articlesTmpl">
+<template name="articlesByCatTmpl">
 
   <div class="template-listing">
   
     <div class="page-header">
-      <h1>Articles</h1>
+      <h1>Articles by Category</h1>
+      <a href="#" class="streams_link">Streams</a>
     </div>
     
-   <!-- <div>
-      {{> quickForm collection="Articles" id="insertArticleForm" type="insert"}}
-	  </div>
-    
-    
-   <div>
-      {{> quickForm collection="Articles" doc=this id="updateArticleForm" type="update"}}
-	  </div>
-    -->
     <div class="articles_listing">
       <ul class="list-group">
         
         {{#each articles}}
-        
-          <li class="list-group-item"><span class="title">{{ title }}</span> - {{userID}} && {{creatorID}}
+        <!-- {{userID}} && {{creatorID}} -->
+          <li class="list-group-item">
+            <span class="title">{{ title }}</span> - {{userID}} && {{creatorID}}
             <span><a class="update_article" href="#">edit</a></span>
             <span><a class="delete_article" href="#">delete</a></span>
           </li>
@@ -34,7 +27,37 @@
    		<button class="btn btn-md btn-default">New Article</button>
     </div>
     
+  </div> <!-- template_listing -->
+</template>
+
+<template name="articlesTmpl">
+
+  <div class="template-listing">
+  
+    <div class="page-header">
+      <h1>Articles</h1>
+      <a href="#" class="streams_link">Streams</a>
+    </div>
     
+    <div class="articles_listing">
+      <ul class="list-group">
+        
+        {{#each articles}}
+        <!-- {{userID}} && {{creatorID}} -->
+          <li class="list-group-item">
+            <span class="title">{{ title }}</span> - {{userID}} && {{creatorID}}
+            <span><a class="update_article" href="#">edit</a></span>
+            <span><a class="delete_article" href="#">delete</a></span>
+          </li>
+          
+        {{/each}}
+        
+      </ul>
+    </div>    
+    
+    <div class="add_article">
+   		<button class="btn btn-md btn-default">New Article</button>
+    </div>
     
   </div> <!-- template_listing -->
 </template>
@@ -43,13 +66,13 @@
 <template name="articleCreateTmpl">
   <div>
     {{#autoForm collection="Articles" doc=this id="insertArticleForm" type="insert"}}
-    {{/autoForm}}      {{> afQuickField name='stream_names' options=streams_select}}
-      
+      {{> afQuickField name='stream_names' options=streams_select}}
       {{> afQuickField name='title'}}
       {{> afQuickField name='short_title'}}
       {{> afQuickField name='content'}}
-      <button type="submit" class="btn btn-primary">Update Article</button>
-
+      <button type="submit" class="btn btn-primary">Create Article</button>
+    {{/autoForm}}      
+    
 	 </div>
    <a href="#" class="articles_link">Cancel</a>
 </template>

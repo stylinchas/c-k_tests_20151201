@@ -7,6 +7,8 @@ if (Meteor.isClient) {
   Meteor.subscribe("categories");
   
   
+  
+  
   Template.articlesTmpl.helpers({
     
     // get user's articles
@@ -67,6 +69,12 @@ if (Meteor.isClient) {
           // nothing - prompt closes
         }
       });
+    },
+    // nav to Streams Listing
+    'click .streams_link': function (event) {
+      event.preventDefault(event);
+      event.stopPropagation(event);
+      Router.go('/streams');
     }
   });
   
@@ -106,8 +114,6 @@ if (Meteor.isClient) {
        return Streams.find().map(function (strm) {
          return {label: strm.stream_title, value:strm.stream_title};
         });
-       
-       
       },
     });
      

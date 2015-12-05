@@ -3,7 +3,6 @@ Streams = new Mongo.Collection('streams');
 
 Streams.attachSchema(new SimpleSchema({
   
-
   category: { // select drop-down - options in helper
     type: String,
     label:"Category"

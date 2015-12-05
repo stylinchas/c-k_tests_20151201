@@ -2,9 +2,10 @@
 if (Meteor.isClient) {
   
   // get the data for the Streams templates
-  Meteor.subscribe("streams");
+ Meteor.subscribe("streams");
   
-  
+  var handle = Meteor.subscribe("Categories");
+      
   Template.streamsTmpl.helpers({
     //  only display streams by this user
     streams: function() {
@@ -20,6 +21,28 @@ if (Meteor.isClient) {
     
     userID: function() {
       return Meteor.userId();
+    },
+    // get the category for each stream in the spacebars #each
+    category_name: function() {
+       // first, get the current stream ID
+      var theId = this.category// the current stream id
+      // console.log('the ID is '+theId);
+      
+      /*
+      Tracker.autorun(function() {
+        if (handle.ready())
+          var theCategory = Categories.find( {name: {_id:theId}} ).fetch();
+          console.log('category is '+theCategory);
+      });
+      */
+      //Categories.find( {_id:"eC2Z3dyZ6xxsbQir7"} ).fetch();
+      
+      thisCategoryDoc = Categories.find( {_id:theId} ).fetch();
+      //thisCat = thisStream.category;
+      
+      //console.log('doc '+thisCategoryDoc[0].name);
+      var catName = (thisCategoryDoc[0]['name']);
+      return catName // the current stream id
     }
   });
   
@@ -35,7 +58,7 @@ if (Meteor.isClient) {
     // display stream link
     'click li span.title': function (event) {
       event.preventDefault(event);
-      Router.go('/streamDisplay/'+this._id);
+      Router.go('/articles/'+this.category); // the ID of the category
     },
     // Update stream link
     'click a.update_stream': function (event) {
@@ -65,24 +88,28 @@ if (Meteor.isClient) {
           
         }
       });
+    },
+    // nav to Articles Listing
+    'click .articles_link': function (event) {
+      event.preventDefault(event);
+      event.stopPropagation(event);
+      Router.go('/articles');
     }
   });
   
   //have this below also - refactor
   Template.streamCreateTmpl.helpers({ 
   categories_select:function() {
-    
-      return Categories.find().map(function (cat) {
-         return {label: cat.name, value: cat._id};
-        });
-  },
+    return Categories.find().map(function (cat) {
+       return {label: cat.name, value: cat._id};
+      });
+    },
   });
   
   Template.streamCreateTmpl.events({ 
     //submit new stream
    'submit': function () {
       Router.go('/streams');
-      console.log(this._id);
     },
     // link back to stream listing
     'click .streams_link': function(event) {
@@ -93,7 +120,8 @@ if (Meteor.isClient) {
   
    //have this above also - refactor
    Template.streamUpdateTmpl.helpers({ 
-   categories_select:function() {
+   
+    categories_select:function() {
       return Categories.find().map(function (cat) {
        return {label: cat.name, value: cat._id};
       });
@@ -103,7 +131,6 @@ if (Meteor.isClient) {
   Template.streamUpdateTmpl.events({
     //submit updated stream 
     'submit': function () {
-       alert('ok'); 
       Router.go('/streams');
     },
     'click .streams_link': function(event) {

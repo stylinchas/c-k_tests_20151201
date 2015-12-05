@@ -2,6 +2,7 @@ Router.configure({
   layoutTemplate: 'ApplicationLayout'
 });
 
+
 // displays the listing of articles
 Router.route('/articles', function () {
 
@@ -10,6 +11,22 @@ Router.route('/articles', function () {
   // {{> yield}}
   this.render('ArticlesTmpl');
 });
+
+/*
+Router.route('/articles/:catId', function () {
+  this.layout('ApplicationLayout');
+  
+  console.log(this.params.catId);
+  // {{> yield}}
+  this.render('articlesByCatTmpl', {
+    data: function () {
+      
+      console.log( Articles.find().fetch() );
+      return Articles.find({category: this.params.catId}).fetch();
+    }
+  });
+});
+*/
 
 // displays the New Article form
 Router.route('/articleCreate', function () {
