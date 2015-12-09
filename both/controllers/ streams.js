@@ -2,11 +2,13 @@
 if (Meteor.isClient) {
   
   // get the data for the Streams templates
- Meteor.subscribe("streams");
+    Meteor.subscribe("streams");
   
-  var handle = Meteor.subscribe("Categories");
-      
-  Template.streamsTmpl.helpers({
+    Meteor.subscribe("categories");
+ 
+ 
+ // Stream Listing
+  Template.streamsListingTmpl.helpers({
     //  only display streams by this user
     streams: function() {
       
@@ -22,32 +24,39 @@ if (Meteor.isClient) {
     userID: function() {
       return Meteor.userId();
     },
-    // get the category for each stream in the spacebars #each
+    
+    // get the category name and ID for each stream ito display on the stream listing - refactor this - cws
+    // displays in stream listing
     category_name: function() {
-       // first, get the current stream ID
+      
       var theId = this.category// the current stream id
       // console.log('the ID is '+theId);
       
-      /*
-      Tracker.autorun(function() {
-        if (handle.ready())
-          var theCategory = Categories.find( {name: {_id:theId}} ).fetch();
-          console.log('category is '+theCategory);
-      });
-      */
-      //Categories.find( {_id:"eC2Z3dyZ6xxsbQir7"} ).fetch();
-      
-      thisCategoryDoc = Categories.find( {_id:theId} ).fetch();
-      //thisCat = thisStream.category;
-      
+      //  Find the matching Category doc
+      var thisCategoryDoc = Categories.find( {_id:theId} ).fetch();
       //console.log('doc '+thisCategoryDoc[0].name);
+      
+      // get the Category Name
       var catName = (thisCategoryDoc[0]['name']);
-      return catName // the current stream id
+      return catName // the current stream name
+    },
+    category_id: function() {
+      
+      var theId = this.category// the current stream id
+      // console.log('the ID is '+theId);
+      
+      //  Find the matching Category doc
+      var thisCategoryDoc = Categories.find( {_id:theId} ).fetch();
+      //console.log('doc '+thisCategoryDoc[0].name);
+      
+      // get the Category Name
+      var catID = (thisCategoryDoc[0]['_id']);
+      return catID // the current stream id
     }
   });
   
   // the Stream Listing events
-  Template.streamsTmpl.events({ 
+  Template.streamsListingTmpl.events({ 
   
   ///CRUD stream links
   
@@ -55,10 +64,31 @@ if (Meteor.isClient) {
      'click .add_stream button': function() {
         Router.go('/streamCreate');
     },
-    // display stream link
+    
+    // 'display articles by category' link 
+    // user clicks on a stream title to see associated articles
     'click li span.title': function (event) {
       event.preventDefault(event);
-      Router.go('/articles/'+this.category); // the ID of the category
+      
+      ////// get this session stuff out of the route - cws
+      // put the stream's category name and ID in session variables
+      //for use later
+      // the  category ID
+      var catID = $(event.target).parent().find('.category').data('cat-id');
+      Session.set( 'currentCategoryId', catID );
+      console.log("this cat id is "+String(catID));
+      catID = String(catID);
+      // the category name
+      var theCat = Categories.find( {_id:catID} ).fetch(); 
+      var catName = (theCat[0]['name']); // ugly -cws
+      //console.log('this cat is '+catName);
+      Session.set('currentCategoryName', catName);
+      
+      // put the Streamm title and id in session variables
+      Session.set('currentStreamName',this.stream_title);
+      Session.set('currentStreamId',this._id);
+      
+      Router.go('/articlesByStream/'+this._id); // the ID of the stream
     },
     // Update stream link
     'click a.update_stream': function (event) {
@@ -78,7 +108,7 @@ if (Meteor.isClient) {
         title: "Confirm Stream Delete",
         content: "OK to permanently delete this stream?",
         btnOkText: "Delete Stream", // doesn't work!
-        btnDismissText: 'No, Cancel Delete'
+        btnDismissText: 'No, Cancel Delete' 
           
       }, function(result) {
         if (result) {

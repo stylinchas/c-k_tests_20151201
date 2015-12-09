@@ -9,3 +9,4 @@ Categories = new Mongo.Collection('categories');
       ]
 );
 */
+//Categories.insert( {name: "Real Estate"} );

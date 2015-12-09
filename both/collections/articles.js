@@ -1,16 +1,16 @@
 Articles = new Mongo.Collection('articles');
-// articles elements (title, text, etc.) and author-supplied metadata
 
+// articles elements (title, text, etc.) and author-supplied metadata
 
 Articles.attachSchema(new SimpleSchema({
   title: {
     type: String,
-    label: "Title",
+    label: "Article Title",
     max: 200
   },
   short_title: {
     type: String,
-    label: "Short Title (for Twitter)",
+    label: "Short Article Title (for Twitter)",
     max: 40
   },
   content: {
@@ -30,12 +30,24 @@ Articles.attachSchema(new SimpleSchema({
       }
     }
   },
-  stream_names: { // CWS -pick up here - no controllers/helpers
+  stream_name: { 
     // a select so user can assign an article to a stream
   // see helper in articles.js
-    type:"String",
-    label: "Stream"
+    type: String,
+    label: "Article Stream"
   },
+  streamID: {
+    // a select so user can assign an article to a stream
+  // see helper in articles.js
+    type: String,
+    label: "Stream ID",
+    autoform: {
+        type: "hidden",
+        label: false
+    },
+    autoValue : function() {return  'in stream_name - cws to fix' },
+  },
+  
   creatorID: { 
   // adds the creator's user ID to doc but does not display form field
   // see http://stackoverflow.com/questions/25369368/
@@ -46,7 +58,16 @@ Articles.attachSchema(new SimpleSchema({
         label: false
     },
     autoValue: function () { return Meteor.userId() },
+  },
+  createDate: { 
+    type: String,
+    autoform: {
+        type: "hidden",
+        label: false
+    },
+    autoValue: function () { return  Date() },
   }
+  
 }));
 
 /*

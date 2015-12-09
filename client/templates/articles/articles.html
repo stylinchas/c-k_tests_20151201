@@ -1,19 +1,23 @@
-<template name="articlesByCatTmpl">
+<template name="articlesByStreamTmpl">
 
   <div class="template-listing">
   
     <div class="page-header">
-      <h1>Articles by Category</h1>
-      <a href="#" class="streams_link">Streams</a>
+      <a href="#" class="streams_link">All Streams</a>
+      <div class="breadcrumbs">{{articlesCategoryName}} > {{articlesStreamName}}</div>
+      <h1>Articles by Stream</h1>
+      <h3>{{articlesStreamName}}</h3>
+      
     </div>
     
     <div class="articles_listing">
       <ul class="list-group">
         
-        {{#each articles}}
-        <!-- {{userID}} && {{creatorID}} -->
+        {{#each streamArticles}}
+          
+          <!-- {{userID}} && {{creatorID}} -->
           <li class="list-group-item">
-            <span class="title">{{ title }}</span> - {{userID}} && {{creatorID}}
+            <span class="title">{{ title }}</span> - {{stream_title}}
             <span><a class="update_article" href="#">edit</a></span>
             <span><a class="delete_article" href="#">delete</a></span>
           </li>
@@ -45,7 +49,7 @@
         {{#each articles}}
         <!-- {{userID}} && {{creatorID}} -->
           <li class="list-group-item">
-            <span class="title">{{ title }}</span> - {{userID}} && {{creatorID}}
+            <span class="title">{{ title }}</span> - {{stream_name}}
             <span><a class="update_article" href="#">edit</a></span>
             <span><a class="delete_article" href="#">delete</a></span>
           </li>
@@ -64,9 +68,13 @@
 
 
 <template name="articleCreateTmpl">
+  <div class="page-header">
+      <h1>Create Article</h1>
+  </div>
+    
   <div>
     {{#autoForm collection="Articles" doc=this id="insertArticleForm" type="insert"}}
-      {{> afQuickField name='stream_names' options=streams_select}}
+      {{> afQuickField name='stream_name' options=streams_select}}
       {{> afQuickField name='title'}}
       {{> afQuickField name='short_title'}}
       {{> afQuickField name='content'}}
@@ -78,6 +86,10 @@
 </template>
 
 <template name="articleDisplayTmpl">
+  <div class="page-header">
+      <h1>Preview Article</h1>
+  </div>
+  
   <div>
    <h1>{{title}}</h1>
    <h2>{{short_title}}</h2>
@@ -90,9 +102,14 @@
     
     
 <template name="articleUpdateTmpl">
+  <div class="page-header">
+      <h1>Update Article</h1>
+  </div>
   <div>
-    {{#autoForm collection="Articles" doc=this id="insertArticleForm" type="update"}}
-       {{> afQuickField name='stream_names' options=streams_select}}
+    <!--stream_select returns label and value for each Category select option -->
+    {{#autoForm collection="Articles" doc=this id="updateArticleForm" type="update"}}
+       <!--stream_select helper returns label and value for each Category select option -->
+       {{> afQuickField name='stream_name' options=streams_select}}
        
        {{> afQuickField name='title'}}
        {{> afQuickField name='short_title'}}

@@ -3,7 +3,7 @@
 
 
 if (Meteor.isServer) {
-
+  //Streams.remove({'stream_title':'Test Stream'})
   Meteor.startup(function() {
 
     return Meteor.methods({
@@ -11,7 +11,8 @@ if (Meteor.isServer) {
       removeAll: function() {
 
         // add collection name here
-        // return Posts.remove({});
+        // // return Categories.remove({_id:"GuyFhanRA8httRiQb"});
+        //return Posts.remove({});
 
       }
 
@@ -21,4 +22,4 @@ if (Meteor.isServer) {
 
 }
 
-// Meteor.call('removeAll');
+

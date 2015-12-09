@@ -1,18 +1,18 @@
-<template name="streamsTmpl">
+<template name="streamsListingTmpl">
 
   <div class="template-listing">
   
     <div class="page-header">
+      <a href="#" class="articles_link">View My Articles</a>
       <h1>Your Streams</h1>
-      <a href="#" class="articles_link">Articles</a>
+      
     </div>
     
    <!-- <div>
       {{> quickForm collection="Streams" id="insertStreamForm" type="insert"}}
 	  </div>
     
-    
-   <div>
+    <div>
       {{> quickForm collection="Streams" doc=this id="updateStreamForm" type="update"}}
 	  </div>
     -->
@@ -21,7 +21,7 @@
         
         {{#each streams}}
           <!-- {{userID}} && {{creatorID} -->
-          <li class="list-group-item"><span class="title">{{ stream_title }}</span> - <span class="category">{{category_name}}</span>
+          <li class="list-group-item"><span class="title">{{ stream_title }}</span> - <span class="category" data-cat-id= "{{category_id}}">{{category_name}}</span>
             <span><a class="update_stream" href="#">edit</a></span>
             <span><a class="delete_stream" href="#">delete</a></span>
           </li>
@@ -46,14 +46,14 @@
        {{> afQuickField name='category' options=categories_select}}
        {{> afQuickField name='stream_title'}}
        {{> afQuickField name='stream_description'}}
+       
     <button type="submit" class="btn btn-primary">Create Stream</button>
     {{/autoForm}}
 	 </div>
    <a href="#" class="streams_link">Cancel</a>
 </template>
 
-    
-    
+
 <template name="streamUpdateTmpl">
   <h3>Update Stream Information</h3>
   <div>
@@ -63,8 +63,6 @@
       {{> afQuickField name='stream_description'}}
       <button type="submit" class="btn btn-primary">Update Stream</button>
     {{/autoForm}} 
-    
-    
 	</div>
   <a href="#" class="streams_link">Cancel</a>
 </template>

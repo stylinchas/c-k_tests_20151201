@@ -6,7 +6,7 @@ Streams.attachSchema(new SimpleSchema({
   category: { // select drop-down - options in helper
     type: String,
     label:"Category"
-    
+    // stores the Category ID
     /*
     ,
     // options for select from helper in controllers/streams.js
